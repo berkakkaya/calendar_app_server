@@ -33,7 +33,15 @@ Server side for calendar app project.
         source venv/bin/activate
         ```
 
-5. Lastly, install the requirements.
+5. Install the required packages inside the virtual environment.
    ```bash
    pip install -r requirements.txt
    ```
+
+6. You need to generate an access token and a refresh token. To do so, run this command in your terminal:
+   ```bash
+   python -c "import secrets; print('REFRESH_SECRET =', secrets.token_hex(32), '\nACCESS_SECRET =', secrets.token_hex(32))"
+   ```
+   Copy the output and paste it into the `.env` file.
+
+7. You need to specify the `DATABASE_URL` parameter in the `.env` file. Specify your MongoDB database connection string and you're ready to go.
