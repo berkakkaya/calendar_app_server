@@ -28,7 +28,7 @@ class _DatabaseManager:
                     address,
                     is_admin):
 
-        self._collection_users.insert_one({
+        result = self._collection_users.insert_one({
             "name": name,
             "surname": surname,
             "username": username,
@@ -39,6 +39,9 @@ class _DatabaseManager:
             "address": address,
             "is_admin": is_admin
         })
+
+        if result.inserted_id != None:
+            return str(result.inserted_id)
 
     def get_user_by_email(self, email):
         found_user = self._collection_users.find_one({"email": email})
