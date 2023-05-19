@@ -39,3 +39,7 @@ class _DatabaseManager:
             "address": address,
             "is_admin": is_admin
         })
+
+    def get_user_by_email(self, email):
+        found_user = self._collection_users.find_one({"email": email})
+        return found_user
