@@ -1,0 +1,380 @@
+[
+  {
+    "_id": "171e775c-7ff8-49c1-a3c3-fd5cd203a6f8",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Login Without Body",
+    "url": "http://127.0.0.1:5000/login",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2023-05-19T14:38:47.499Z",
+    "modified": "2023-05-19T14:51:36.678Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "bef9d4a8-83e7-46d2-ad55-d244de43c5c3",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Login Without Required Arguments",
+    "url": "http://127.0.0.1:5000/login",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2023-05-19T14:39:11.151Z",
+    "modified": "2023-05-19T14:51:01.543Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"abc@abc.com\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "b6608c9a-8438-47c3-bc16-85e32b2a7593",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Login with Wrong Email",
+    "url": "http://127.0.0.1:5000/login",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2023-05-19T14:39:13.093Z",
+    "modified": "2023-05-19T14:50:15.276Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"abc@abc.com\",\n  \"password\": \"sevilodunalp4224\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "403"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "50f6808f-09e6-4587-ad37-31bb8cf5c822",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Login with Wrong Password",
+    "url": "http://127.0.0.1:5000/login",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-05-19T14:42:21.582Z",
+    "modified": "2023-05-19T14:47:58.897Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"sevilodunalpp@hoymail.com\",\n  \"password\": \"abc123\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "403"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "4ef8f672-e720-4e72-973f-4111949b9774",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Login with Proper Values",
+    "url": "http://127.0.0.1:5000/login",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2023-05-19T14:43:22.225Z",
+    "modified": "2023-05-19T15:06:21.408Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"sevilodunalpp@hoymail.com\",\n  \"password\": \"sevilodunalp4224\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "access_token"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "refresh_token"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.access_token",
+        "action": "istype",
+        "value": "string"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.refresh_token",
+        "action": "istype",
+        "value": "string"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.access_token",
+        "action": "setto",
+        "value": "{{access_token}}"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.refresh_token",
+        "action": "setto",
+        "value": "{{refresh_token}}"
+      }
+    ]
+  },
+  {
+    "_id": "bb5e97b8-45c4-4a89-a457-725fb7a023b2",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Get New Access Token Without Authorization",
+    "url": "http://127.0.0.1:5000/token",
+    "method": "POST",
+    "sortNum": 60000,
+    "created": "2023-05-19T14:52:46.140Z",
+    "modified": "2023-05-19T14:54:10.123Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "9d7c1bbf-f9a3-49f8-a226-cb6a27affd4d",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Get New Access Token with Invalid Refresh Token",
+    "url": "http://127.0.0.1:5000/token",
+    "method": "POST",
+    "sortNum": 70000,
+    "created": "2023-05-19T14:55:14.167Z",
+    "modified": "2023-05-19T14:56:33.590Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ2NWVkNGY1N2NjZDE1ZGQyZWZhMGVjIiwiZXhwIjoxNjg3MTAwMTUyfQ.BEDYiT2_FD2gwY8Dq_g666ncCJysMBlMETHuYrRmQra"
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "401"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "6032522c-03f1-424e-ad34-3bb56aa25932",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Get New Access Token with Invalid Authorization Method",
+    "url": "http://127.0.0.1:5000/token",
+    "method": "POST",
+    "sortNum": 65000,
+    "created": "2023-05-19T14:56:47.193Z",
+    "modified": "2023-05-19T14:57:33.330Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "basic",
+      "basic": {
+        "username": "testing",
+        "password": "testing"
+      }
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "message"
+      }
+    ]
+  },
+  {
+    "_id": "d9eb72da-1f2d-48d4-a7be-188a657e90c8",
+    "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+    "containerId": "",
+    "name": "Get New Access Token (Proper)",
+    "url": "http://127.0.0.1:5000/token",
+    "method": "POST",
+    "sortNum": 80000,
+    "created": "2023-05-19T14:57:47.141Z",
+    "modified": "2023-05-19T15:09:48.907Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{refresh_token}}"
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "access_token"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.access_token",
+        "action": "setto",
+        "value": "{{access_token}}"
+      }
+    ],
+    "preReq": {
+      "runRequests": [
+        {
+          "reqId": "4ef8f672-e720-4e72-973f-4111949b9774",
+          "colId": "68703a47-fb14-41c4-bbcf-05f31dd58c9b",
+          "triggerCondition": "run-once",
+          "triggerValue": ""
+        }
+      ]
+    }
+  }
+]
