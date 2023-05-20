@@ -25,7 +25,7 @@ Server side for calendar app project.
 4. Enter the virtual env. To do so, we need to run an activation script.
    * For Windows (in Powershell):
         ```powershell
-        .\.venv\Scripts\Activate.ps1
+        .\venv\Scripts\Activate.ps1
         ```
 
    * For Linux:
