@@ -25,7 +25,7 @@ Server side for calendar app project.
 4. Enter the virtual env. To do so, we need to run an activation script.
    * For Windows (in Powershell):
         ```powershell
-        .\.venv\Scripts\Activate.ps1
+        .\venv\Scripts\Activate.ps1
         ```
 
    * For Linux:
@@ -44,4 +44,4 @@ Server side for calendar app project.
    ```
    Copy the output and paste it into the `.env` file.
 
-7. You need to specify the `DATABASE_URL` parameter in the `.env` file. Specify your MongoDB database connection string and you're ready to go.
+7. You need to specify the `DATABASE_URL` parameter in the `.env` file. Specify your MongoDB database connection string and you're ready to go. For testing the API, you can use the [Thunder Client VSCode Extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client).
