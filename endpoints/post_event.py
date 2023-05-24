@@ -14,16 +14,18 @@ def post_event():
         }, 400
     json_data=request.json
 
-    result=check_attributes(json_data,["event_name", "event_type", "created_by", "participants", "start_at", "ends_at", "remind_at"])
+    result=check_attributes(json_data,["name", "type", "participants", "start_at", "ends_at", "remind_at"])
 
     if result==False:
         return {
             "message": "Invalid request"
         }, 400
-    
-    event_id = database_manager.post_event(
-        event_name=json_data["event_name"],
-        event_type=json_data["event_type"],
+    #Burada ne yapmam gerektiğini tam anlayamadım
+    #The same rule will also apply here. The parameter names aren't the wrong thing here, but we obtain those data from our JSON in different names. 
+    # We just need to fix these key strings in json_data according to the thing I said in the upper comment, and we're done. :)
+    insert_result = database_manager.post_event(
+        name=json_data["name"],
+        type=json_data["type"],
         created_by=json_data["created_by"],
         participants=json_data["participants"],
         start_at=json_data["start_at"],
@@ -32,16 +34,8 @@ def post_event():
         is_admin=False # gerekli mi?
     )
     
-    if event_id == None:
+    if insert_result == False:
         return {
             "message": "event already exists."
         }, 409
     
-
-    refresh_token=token_manager.create_refresh_token(event_id)
-    access_token=token_manager.create_access_token(refresh_token)    
-
-    return{
-        "access_token":access_token, 
-        "refresh_token": refresh_token
-    },200

@@ -50,24 +50,22 @@ class _DatabaseManager:
         found_user = self._collection_users.find_one({"email": email})
         return found_user
     
-    def post_event(self, 
-                   event_id, 
-                   event_name, 
-                   event_type, 
+    def create_event(self,  
+                   name, 
+                   type, 
                    created_by, 
                    participants, 
                    starts_at, 
                    ends_at, 
                    remind_at):
-        result = self._collection_events.insert_one({
-            "event_id":ObjectId(event_id),
-            "event_name":event_name,
-            "event_type":event_type,
+        result = self._collection_events.inserted_id({ #buradan emin değilim-It's better if we return the created document's ID. The insert_one function returns a InsertOneResult object, and it has a inserted_id property. If the operation has failed, this property will be None. We can simply return that property in this function. A detailed documentation can be found here.
+            "name":name,
+            "type":type,
             "created_by":ObjectId(created_by),
-            "participants": list(map(ObjectId, participants)),
+            "participants": participants,
             "starts_at": datetime.fromtimestamp(starts_at),
             "ends_at": datetime.fromtimestamp(ends_at),
-            "remind_at": list[int(remind_at)]
+            "remind_at": remind_at
         })
   
 
