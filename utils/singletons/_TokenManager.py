@@ -81,7 +81,7 @@ class _TokenProvider:
         """
 
         try:
-            refresh_decoded = self.decode_refresh_token(self, refresh_token)
+            refresh_decoded = self.decode_refresh_token(refresh_token)
 
         except TokenInvalidException:
             raise TokenInvalidException("Invalid refresh token")
