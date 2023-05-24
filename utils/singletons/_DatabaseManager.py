@@ -45,7 +45,10 @@ class _DatabaseManager:
         found_user = self._collection_users.find_one({"email": email})
         return found_user
     
-    def delete_event(self, event_id):  
+    def get_event(self, event_id):
+        return self._collection_events.find_one({"_id": ObjectId(event_id)})
+        
+    def delete_event(self, user_id, event_id):
         result = self._collection_events.find_one_and_delete(
             {"_id": ObjectId(event_id)}
         )
@@ -54,4 +57,4 @@ class _DatabaseManager:
             return False
         
         return True
-        
+    
