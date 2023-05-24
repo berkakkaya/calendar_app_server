@@ -1,5 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from bson import ObjectId
 from consts import ENV
 
 
@@ -46,3 +47,17 @@ class _DatabaseManager:
     def get_user_by_email(self, email):
         found_user = self._collection_users.find_one({"email": email})
         return found_user
+    
+    def get_event(self, event_id):
+        return self._collection_events.find_one({"_id": ObjectId(event_id)})
+        
+    def delete_event(self, event_id):
+        result = self._collection_events.find_one_and_delete(
+            {"_id": ObjectId(event_id)}
+        )
+
+        if result == None:
+            return False
+        
+        return True
+    
