@@ -1,6 +1,9 @@
+from bson import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from consts import ENV
+from datetime import datetime
+
 
 
 class _DatabaseManager:
@@ -46,3 +49,26 @@ class _DatabaseManager:
     def get_user_by_email(self, email):
         found_user = self._collection_users.find_one({"email": email})
         return found_user
+    
+    def post_event(self, 
+                   event_id, 
+                   event_name, 
+                   event_type, 
+                   created_by, 
+                   participants, 
+                   starts_at, 
+                   ends_at, 
+                   remind_at):
+        result = self._collection_events.insert_one({
+            "event_id":ObjectId(event_id),
+            "event_name":event_name,
+            "event_type":event_type,
+            "created_by":ObjectId(created_by),
+            "participants": list(map(ObjectId, participants)),
+            "starts_at": datetime.fromtimestamp(starts_at),
+            "ends_at": datetime.fromtimestamp(ends_at),
+            "remind_at": list[int(remind_at)]
+        })
+  
+
+        
