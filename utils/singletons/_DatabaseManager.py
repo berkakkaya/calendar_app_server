@@ -1,6 +1,7 @@
 from bson import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from bson import ObjectId
 from consts import ENV
 from datetime import datetime
 
@@ -19,7 +20,8 @@ class _DatabaseManager:
         self._database = self._client["Database"]
         self._collection_events = self._database["events"]
         self._collection_users = self._database["users"]
-
+    
+    
     def create_user(self,
                     name,
                     surname,
@@ -45,10 +47,12 @@ class _DatabaseManager:
 
         if result.inserted_id != None:
             return str(result.inserted_id)
-
+    
+    
     def get_user_by_email(self, email):
         found_user = self._collection_users.find_one({"email": email})
         return found_user
+    
     
     def create_event(self,
                      name, 
@@ -84,3 +88,18 @@ class _DatabaseManager:
             return None
 
         return str(inserted_id)
+    
+    
+    def get_event(self, event_id):
+        return self._collection_events.find_one({"_id": ObjectId(event_id)})
+    
+    
+    def delete_event(self, event_id):
+        result = self._collection_events.find_one_and_delete(
+            {"_id": ObjectId(event_id)}
+        )
+
+        if result == None:
+            return False
+        
+        return True
