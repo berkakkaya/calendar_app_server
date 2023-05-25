@@ -1,41 +1,52 @@
 from flask import request, Blueprint
-from utils.singletons import token_manager, database_manager
-from utils.exceptions import TokenInvalidException
+from utils.singletons import database_manager
 from utils.check_attributes import check_attributes
+from utils.authentication import login_required
 
 
 blueprint = Blueprint("post_event", __name__)
 
+
 @blueprint.route("/event", methods=["POST"])
-def post_event():
+@login_required
+def post_event(user_id):
     if not request.is_json:
         return {
             "message": "Invalid request"
         }, 400
-    json_data=request.json
+    
+    json_data = request.json
 
-    result=check_attributes(json_data,["name", "type", "participants", "start_at", "ends_at", "remind_at"])
+    result = check_attributes(json_data, ["name", "type", "participants", "starts_at", "ends_at", "remind_at"])
 
-    if result==False:
+    if result == False:
         return {
             "message": "Invalid request"
         }, 400
-    #Burada ne yapmam gerektiğini tam anlayamadım
-    #The same rule will also apply here. The parameter names aren't the wrong thing here, but we obtain those data from our JSON in different names. 
-    # We just need to fix these key strings in json_data according to the thing I said in the upper comment, and we're done. :)
-    insert_result = database_manager.post_event(
+    
+    inserted_id = database_manager.create_event(
         name=json_data["name"],
-        type=json_data["type"],
-        created_by=json_data["created_by"],
+        event_type=json_data["type"],
+        created_by=user_id,
         participants=json_data["participants"],
-        start_at=json_data["start_at"],
+        starts_at=json_data["starts_at"],
         ends_at=json_data["ends_at"],
-        remind_at=json_data["remind_at"],
-        is_admin=False # gerekli mi?
+        remind_at=json_data["remind_at"]
     )
     
-    if insert_result == False:
+    if inserted_id == False:
         return {
-            "message": "event already exists."
-        }, 409
+            "message": "An issue happened while creating a new event."
+        }, 500
+    
+    return {
+	    "_id": inserted_id,
+        "name": json_data["name"],
+        "type": json_data["type"],
+        "created_by": user_id,
+        "participants": json_data["participants"],
+        "starts_at": json_data["starts_at"],
+        "ends_at": json_data["ends_at"],
+        "remind_at": json_data["remind_at"]
+    }, 200
     
