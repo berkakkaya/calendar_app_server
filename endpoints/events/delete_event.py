@@ -25,7 +25,6 @@ def delete_event(user_id):
     event = database_manager.get_event(event_id)
 
     if event == None:
-        print("ehe")
         return {
             "message": "Event does not exist"
         }, 404
