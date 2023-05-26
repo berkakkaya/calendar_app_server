@@ -2,7 +2,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from bson import ObjectId
 from consts import ENV
-
+import datetime
 
 class _DatabaseManager:
     def __init__(self):
@@ -50,7 +50,28 @@ class _DatabaseManager:
     
     def get_event(self, event_id):
         return self._collection_events.find_one({"_id": ObjectId(event_id)})
+    
+    def get_event_by_id(self, event_id):
+        found_event = self._collection_events.find_one({"_id": ObjectId(event_id)})
+
+        if found_event == None:
+            return None
+    
+        found_event["starts_at"] = found_event["starts_at"].timestamp()
+
+        found_event["ends_at"] = found_event["ends_at"].timestamp()
+
+        found_event["_id"] = str(event_id)
         
+        participants = found_event["participants"]
+
+        for i in range(participants):
+            participants[i] = str(participants[i])
+        
+        found_event["participants"] = participants
+            
+        return found_event
+
     def delete_event(self, event_id):
         result = self._collection_events.find_one_and_delete(
             {"_id": ObjectId(event_id)}
