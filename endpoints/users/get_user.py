@@ -2,10 +2,10 @@ from flask import request, Blueprint
 from utils.singletons import database_manager
 from utils.authentication import login_required
 
-blueprint = Blueprint("get_user", __name__)
+blueprint = Blueprint("users", __name__)
 
 
-@blueprint.route("/get_user", methods=["GET"])
+@blueprint.route("/users", methods=["GET"])
 @login_required
 def get_user(user_id):
     if not request.is_json:
@@ -25,14 +25,9 @@ def get_user(user_id):
     user = database_manager.get_user_by_id(_id)
 
     if user == None:
-            return {
-            "message": "user does not exist"
+        return {
+        "message": "user does not exist"
         }, 404
     
 
-    return {
-	    "_id": _id,
-        "name": user["name"],
-        "surname": user["surname"],
-        "username": user["username"],
-    }, 200
+    return user, 200
