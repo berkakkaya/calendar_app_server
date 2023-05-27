@@ -103,3 +103,29 @@ class _DatabaseManager:
             return False
         
         return True
+    
+
+    def get_user_by_id(self, user_id):
+        user_id = ObjectId(user_id)
+        found_user = self._collection_users.find_one({"_id": user_id})
+        if found_user !=None:
+            found_user["_id"]=str(found_user["_id"])
+        return found_user
+    
+    def get_all_users(self):
+        projection  = {
+        "_id": 1,  
+        "name": 1,
+        "surname": 1,
+        "username": 1
+        }
+        
+        users = self._collection_users.find({}, projection )
+
+        user_list = []
+        for user in users:
+            user["_id"] = str(user["_id"])
+            user_list.append(user)
+
+        return user_list
+
