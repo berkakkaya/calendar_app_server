@@ -103,3 +103,9 @@ class _DatabaseManager:
             return False
         
         return True
+    
+
+    def get_user_by_id(self, user_id):
+        user_id = ObjectId(user_id)
+        found_user = self._collection_users.find_one({"user_id": user_id})
+        return found_user
