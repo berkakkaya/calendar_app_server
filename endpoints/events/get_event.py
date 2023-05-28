@@ -2,12 +2,12 @@ from flask import request, Blueprint
 from utils.singletons import database_manager
 from utils.authentication import login_required
 
-blueprint = Blueprint("delete_event", __name__)
+blueprint = Blueprint("get_event", __name__)
 
 
-@blueprint.route("/event", methods=["DELETE"])
+@blueprint.route("/event", methods=["GET"])
 @login_required
-def delete_event(user_id):
+def get_event(user_id):
     if not request.is_json:
         return {
             "message": "Invalid request"
@@ -19,23 +19,12 @@ def delete_event(user_id):
         return {
             "message": "Invalid request"
         },400
-    
-    event_id = json_data["event_id"]
 
-    event = database_manager.get_event(event_id)
+    event = database_manager.get_event_by_id(json_data["event_id"])
 
     if event == None:
         return {
             "message": "Event does not exist"
         }, 404
     
-    if str(event["created_by"]) != user_id:
-        return {
-            "message": "User does not own this event"
-        }, 406
-    
-    result = database_manager.delete_event(event_id)
-
-    return {
-        "message": "The event has been deleted successfully"
-    }, 200
+    return event, 200
