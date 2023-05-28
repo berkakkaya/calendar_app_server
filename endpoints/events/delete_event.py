@@ -22,14 +22,14 @@ def delete_event(user_id):
     
     event_id = json_data["event_id"]
 
-    event = database_manager.get_event(event_id)
+    event = database_manager.get_event_by_id(event_id)
 
     if event == None:
         return {
             "message": "Event does not exist"
         }, 404
     
-    if str(event["created_by"]) != user_id:
+    if event["created_by"] != user_id:
         return {
             "message": "User does not own this event"
         }, 406

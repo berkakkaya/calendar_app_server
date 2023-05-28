@@ -48,8 +48,6 @@ class _DatabaseManager:
         found_user = self._collection_users.find_one({"email": email})
         return found_user
     
-    def get_event(self, event_id):
-        return self._collection_events.find_one({"_id": ObjectId(event_id)})
     
     def get_event_by_id(self, event_id):
         found_event = self._collection_events.find_one({"_id": ObjectId(event_id)})
