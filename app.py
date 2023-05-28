@@ -2,6 +2,7 @@ from flask import Flask
 from endpoints import post_login
 from endpoints import post_register
 from endpoints.events import delete_event
+from endpoints.events import get_event
 
 app = Flask(__name__)
 
@@ -15,3 +16,4 @@ def hello_world():
 app.register_blueprint(post_login.blueprint)
 app.register_blueprint(post_register.blueprint)
 app.register_blueprint(delete_event.blueprint)
+app.register_blueprint(get_event.blueprint)
