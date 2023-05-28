@@ -1,6 +1,7 @@
 from bson import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from pymongo.errors import DuplicateKeyError
 from bson import ObjectId
 from consts import ENV
 from datetime import datetime
@@ -31,18 +32,21 @@ class _DatabaseManager:
                     email,
                     address,
                     is_admin):
-
-        result = self._collection_users.insert_one({
-            "name": name,
-            "surname": surname,
-            "username": username,
-            "password": password,
-            "tc_identity_no": tc_identity_no,
-            "phone": phone,
-            "email": email,
-            "address": address,
-            "is_admin": is_admin
-        })
+        
+        try:
+            result = self._collection_users.insert_one({
+                "name": name,
+                "surname": surname,
+                "username": username,
+                "password": password,
+                "tc_identity_no": tc_identity_no,
+                "phone": phone,
+                "email": email,
+                "address": address,
+                "is_admin": is_admin
+            })
+        except DuplicateKeyError:
+            return None
 
         if result.inserted_id != None:
             return str(result.inserted_id)
