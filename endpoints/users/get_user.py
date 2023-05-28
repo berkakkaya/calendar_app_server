@@ -2,12 +2,12 @@ from flask import request, Blueprint
 from utils.singletons import database_manager
 from utils.authentication import login_required
 
-blueprint = Blueprint("get_event", __name__)
+blueprint = Blueprint("get_user", __name__)
 
 
-@blueprint.route("/event", methods=["GET"])
+@blueprint.route("/user", methods=["GET"])
 @login_required
-def get_event(user_id):
+def get_user(user_id):
     if not request.is_json:
         return {
             "message": "Invalid request"
@@ -15,16 +15,19 @@ def get_event(user_id):
 
     json_data = request.json
 
-    if not "event_id" in json_data:
+    if not "user_id" in json_data:
         return {
             "message": "Invalid request"
         },400
+    
+    _id = json_data["user_id"]
 
-    event = database_manager.get_event_by_id(json_data["event_id"])
+    user = database_manager.get_user_by_id(_id)
 
-    if event == None:
+    if user == None:
         return {
-            "message": "Event does not exist"
+        "message": "user does not exist"
         }, 404
     
-    return event, 200
+
+    return user, 200
