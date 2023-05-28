@@ -71,6 +71,28 @@ class _DatabaseManager:
         found_event["participants"] = participants
             
         return found_event
+    
+    def get_all_events(self, user_id):
+        events = self._collection_events.find({
+        "$or": [
+            {
+                "participants": ObjectId(user_id)
+            },
+            {
+                "created_by": ObjectId(user_id)
+            }
+            ]
+        }, 
+        projection=["name", "type", "starts_at", "ends_at"])
+        
+        for event in events:
+            event["_id"] =  str(event["_id"])
+
+            event["starts_at"] = event["starts_at"].timestamp()
+
+            event["ends_at"] = event["ends_at"].timestamp()
+
+        return events
 
     def delete_event(self, event_id):
         result = self._collection_events.find_one_and_delete(
