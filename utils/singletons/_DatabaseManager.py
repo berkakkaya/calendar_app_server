@@ -169,3 +169,23 @@ class _DatabaseManager:
             user_list.append(user)
 
         return user_list
+    
+    def patch_event(**document):
+        if document["_id"] != None:
+            document["_id"] = ObjectId(document["_id"])
+        else:
+            return False
+
+        document["created_by"] = ObjectId(document["created_by"])
+
+        participants = document["participants"]
+
+        for i in len(participants):
+            participants[i] = ObjectId(participants[i])
+
+        document["participants"] = participants
+
+        document["starts_at"] = datetime.fromtimestamp(document["starts_at"])
+        document["ends_at"] = datetime.fromtimestamp(document["ends_at"])
+
+        return True
