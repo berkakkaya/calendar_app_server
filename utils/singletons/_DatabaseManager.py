@@ -173,3 +173,28 @@ class _DatabaseManager:
             user_list.append(user)
 
         return user_list
+    
+
+    def patch_event(self, document):
+        document["_id"] = ObjectId(document["_id"])
+
+        document["created_by"] = ObjectId(document["created_by"])
+
+        participants = document["participants"]
+
+        for i in len(participants):
+            participants[i] = ObjectId(participants[i])
+
+        document["participants"] = participants
+
+        document["starts_at"] = datetime.fromtimestamp(document["starts_at"])
+        document["ends_at"] = datetime.fromtimestamp(document["ends_at"])
+
+        is_deleted = self.delete_event(document["_id"])
+
+        if is_deleted == False:
+            return False
+
+        self.create_event(document)
+
+        return True
