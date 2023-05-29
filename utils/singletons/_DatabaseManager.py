@@ -170,11 +170,9 @@ class _DatabaseManager:
 
         return user_list
     
-    def patch_event(**document):
-        if document["_id"] != None:
-            document["_id"] = ObjectId(document["_id"])
-        else:
-            return False
+
+    def patch_event(self, document):
+        document["_id"] = ObjectId(document["_id"])
 
         document["created_by"] = ObjectId(document["created_by"])
 
@@ -187,5 +185,12 @@ class _DatabaseManager:
 
         document["starts_at"] = datetime.fromtimestamp(document["starts_at"])
         document["ends_at"] = datetime.fromtimestamp(document["ends_at"])
+
+        is_deleted = self.delete_event(document["_id"])
+
+        if is_deleted == False:
+            return False
+
+        self.create_event(document)
 
         return True
