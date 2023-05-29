@@ -34,6 +34,11 @@ def patch_event(user_id):
         
     event = database_manager.get_event_by_id(json_data["_id"])
 
+    if event == None:
+        return {
+            "message": "The specified event does not exist"
+        }, 404
+    
     if user_id != event["created_by"]:
         return {
             "message": "User does not own this event"
