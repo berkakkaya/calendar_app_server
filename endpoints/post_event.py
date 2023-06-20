@@ -39,6 +39,10 @@ def post_event(user_id):
             "message": "An issue happened while creating a new event."
         }, 500
     
+    # Convert strings to ObjectId
+    for i in range(len(json_data["participants"])):
+        json_data["participants"][i] = str(json_data["participants"][i])
+    
     return {
 	    "_id": inserted_id,
         "name": json_data["name"],

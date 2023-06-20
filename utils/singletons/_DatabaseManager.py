@@ -76,8 +76,8 @@ class _DatabaseManager:
             "type":event_type,
             "created_by":ObjectId(created_by),
             "participants": participants,
-            "starts_at": datetime.fromtimestamp(starts_at),
-            "ends_at": datetime.fromtimestamp(ends_at),
+            "starts_at": datetime.fromtimestamp(int(starts_at) / 1000),
+            "ends_at": datetime.fromtimestamp(int(ends_at) / 1000),
             "remind_at": remind_at
         }
 
@@ -100,17 +100,16 @@ class _DatabaseManager:
             return None
     
         found_event["starts_at"] = found_event["starts_at"].timestamp()
-
         found_event["ends_at"] = found_event["ends_at"].timestamp()
-
         found_event["_id"] = str(event_id)
         
         participants = found_event["participants"]
 
-        for i in range(participants):
+        for i in range(len(participants)):
             participants[i] = str(participants[i])
         
         found_event["participants"] = participants
+        found_event["created_by"] = str(found_event["created_by"])
             
         return found_event
     
@@ -126,7 +125,9 @@ class _DatabaseManager:
             }
             ]
         }, 
-        projection=["name", "type", "starts_at", "ends_at"])
+        projection=["name", "type", "starts_at", "ends_at", "remind_at"])
+
+        events = list(events)
         
         for event in events:
             event["_id"] =  str(event["_id"])
@@ -134,6 +135,11 @@ class _DatabaseManager:
             event["starts_at"] = event["starts_at"].timestamp()
 
             event["ends_at"] = event["ends_at"].timestamp()
+        
+        # Filter events that past due
+        now = datetime.now().timestamp()
+
+        events = [event for event in events if event["ends_at"] > now]
 
         return events
 
@@ -168,7 +174,8 @@ class _DatabaseManager:
         users = self._collection_users.find({}, projection )
 
         user_list = []
-        for user in users:
+
+        for user in list(users):
             user["_id"] = str(user["_id"])
             user_list.append(user)
 
@@ -182,19 +189,22 @@ class _DatabaseManager:
 
         participants = document["participants"]
 
-        for i in len(participants):
+        for i in range(len(participants)):
             participants[i] = ObjectId(participants[i])
 
         document["participants"] = participants
 
-        document["starts_at"] = datetime.fromtimestamp(document["starts_at"])
-        document["ends_at"] = datetime.fromtimestamp(document["ends_at"])
+        document["starts_at"] = datetime.fromtimestamp(int(document["starts_at"]) / 1000)
+        document["ends_at"] = datetime.fromtimestamp(int(document["ends_at"]) / 1000)
 
         is_deleted = self.delete_event(document["_id"])
 
         if is_deleted == False:
             return False
 
-        self.create_event(document)
+        insert_result = self._collection_events.insert_one(document)
+        
+        if insert_result.inserted_id == None:
+            return False
 
         return True

@@ -44,16 +44,7 @@ def patch_event(user_id):
             "message": "User does not own this event"
         },406
 
-    is_event_patched = database_manager.patch_event({
-                        "_id": event["_id"],
-                        "name": event["name"],
-                        "type": event["type"],
-                        "created_by": event["created_by"],
-                        "participants": event["participants"],
-                        "starts_at": event["starts_at"],
-                        "ends_at": event["ends_at"],
-                        "remind_at": event["remind_at"]
-                    })
+    is_event_patched = database_manager.patch_event(json_data)
     
     if is_event_patched == True:
         return {

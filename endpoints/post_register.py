@@ -26,7 +26,7 @@ def register():
         surname=json_data["surname"],
         username=json_data["username"],
         password=json_data["password"],
-        tc_identity_no=["tc_identity_no"],
+        tc_identity_no=json_data["tc_identity_number"],
         phone=json_data["phone"],
         email=json_data["email"],
         address=json_data["address"],

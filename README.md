@@ -1,8 +1,19 @@
 # Calendar App Server
 
-Server side for calendar app project.
+Server software for Calendar App. This project was made as an
+final project for Software Making class in our university.
+
+Related project:
+[Calendar App Client (Mobile Application)](https://github.com/berkakkaya/calendar_app)
+
+## Project Wiki
+
+This project has a wiki page that covers details of this server software.
+You can access it [from here](https://github.com/berkakkaya/calendar_app_server/wiki) (Turkish only for now).
 
 ## Development
+
+This section has been covered in this project's wiki but we will cover it again here.
 
 1. Firstly, clone the repository.
 
@@ -45,3 +56,9 @@ Server side for calendar app project.
    Copy the output and paste it into the `.env` file.
 
 7. You need to specify the `DATABASE_URL` parameter in the `.env` file. Specify your MongoDB database connection string and you're ready to go. For testing the API, you can use the [Thunder Client VSCode Extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client).
+
+## Project Team
+
+- [Berk Akkaya](https://github.com/berkakkaya) - Project Leader, Mobile Application Developer
+- [İrem Akkın](https://github.com/iremakkin) - Backend Developer
+- [Kemal Beydilli](https://github.com/beydillik) - Backend Developer

@@ -7,9 +7,7 @@ blueprint = Blueprint("get_users", __name__)
 
 @blueprint.route("/users", methods=["GET"])
 @login_required
-def get_users():
-
+def get_users(user_id):
     users = database_manager.get_all_users()
 
     return users, 200
-
